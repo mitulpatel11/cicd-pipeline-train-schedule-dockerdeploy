@@ -14,13 +14,13 @@ pipeline {
             }
             steps {
                 script {
-                    app = docker.build("sydatif/train-schedule")
+                    app = docker.build("willbla/train-schedule")
                     app.inside {
                         sh 'echo $(curl localhost:8080)'
                     }
                 }
             }
-        }                             
+        }
         stage('Push Docker Image') {
             when {
                 branch 'master'
@@ -29,7 +29,7 @@ pipeline {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', 'docker_hub_login') {
                         app.push("${env.BUILD_NUMBER}")
-                        app.push("latest")  
+                        app.push("latest")
                     }
                 }
             }
